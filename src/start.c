@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 00:21:55 by lukorman          #+#    #+#             */
-/*   Updated: 2025/09/25 01:40:58 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:57:45 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_philos	*create_philos(int n_philos, t_table *table)
 		philos[i].left_fork = &table->forks[i];
 		philos[i].right_fork = &table->forks[(i + 1) % n_philos];
 		philos[i].table = table;
+		pthread_mutex_init(&philos[i].meal_mutex, NULL);
 		i++;
 	}
 	return (philos);
@@ -52,11 +53,11 @@ t_table	*init_table(int n_philos, int must_eat, t_time *time)
 	table->must_eat = must_eat;
 	table->death_flag = 0;
 	table->time = time;
-	table->death_mutex = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(table->death_mutex, NULL);
-	table->log_mutex = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(table->log_mutex, NULL);
+	pthread_mutex_init(&table->death_mutex, NULL);
+	pthread_mutex_init(&table->log_mutex, NULL);
 	table->forks = malloc(sizeof(pthread_mutex_t) * n_philos);
+	if (!table->forks)
+		return (NULL);
 	i = 0;
 	while (i < n_philos)
 	{
@@ -94,12 +95,7 @@ void	start_dinner(t_table *table)
 			&philo_routine, &table->philos[i]);
 		i++;
 	}
-	i = 0;
-	while (i < table->number_philos)
-	{
-		pthread_join(table->philos[i].thread, NULL);
-		i++;
-	}
+	pthread_create(&table->monitor, NULL, &controller, table);
 }
 
 long long	get_current_timestamp(void)

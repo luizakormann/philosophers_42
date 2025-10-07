@@ -3,107 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:22:20 by lukorman          #+#    #+#             */
-/*   Updated: 2025/09/25 01:56:33 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:22:48 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 void 	*philo_routine(void *arg);
-void	eat(t_philos *philo);
-void	snooze(t_philos *philo);
-void	think(t_philos *philo);
+void	philo_eat(t_philos *philo);
+void	philo_snooze(t_philos *philo);
+void	philo_think(t_philos *philo);
 void	*controller(void *arg);
 
 void *philo_routine(void *arg)
 {
 	t_philos	*philo;
-	t_table		*table;
 
 	philo = (t_philos *)arg;
-	table = philo->table;
-	while (!table->death_flag)
+	if (philo->id % 2 == 0)
+		usleep(1000);
+	while (!check_death(philo->table))
 	{
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(philo->right_fork);
-		eat(philo);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		snooze(philo);
-		think(philo);
+		take_forks(philo);
+		philo_eat(philo);
+		drop_forks(philo);
+		philo_snooze(philo);
+		philo_think(philo);
 	}
 	return (NULL);
 }
 
-void	eat(t_philos *philo)
+void	philo_eat(t_philos *philo)
 {
-	t_table	*table;
-
-	table = philo->table;
-	pthread_mutex_lock(table->log_mutex);
-	printf("%lld %d is eating\n",
-		get_current_timestamp() - table->time->start_time,
-		philo->id);
-	pthread_mutex_unlock(table->log_mutex);
+	log_action(philo, " is eating");
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_current_timestamp();
-	ms_sleep(table->time->time_to_eat);
 	philo->meal_count++;
+	pthread_mutex_unlock(&philo->meal_mutex);
+	ms_sleep(philo->table->time->time_to_eat);
 }
 
-void	snooze(t_philos *philo)
+void	philo_snooze(t_philos *philo)
 {
-	t_table	*table;
-
-	table = philo->table;
-
-	pthread_mutex_lock(table->log_mutex);
-	printf("%lld %d is sleeping\n",
-		get_current_timestamp() - table->time->start_time,
-		philo->id);
-	pthread_mutex_unlock(table->log_mutex);
-
-	ms_sleep(table->time->time_to_sleep);
+	log_action(philo, "is sleeping");
+	ms_sleep(philo->table->time->time_to_sleep);
 }
 
-void	think(t_philos *philo)
+void	philo_think(t_philos *philo)
 {
-	t_table	*table;
-
-	table = philo->table;
-
-	pthread_mutex_lock(table->log_mutex);
-	printf("%lld %d is thinking\n",
-		get_current_timestamp() - table->time->start_time,
-		philo->id);
-	pthread_mutex_unlock(table->log_mutex);
+	log_action(philo, "is thinking");
 }
 
 void	*controller(void *arg)
 {
 	t_table	*table;
 	int		i;
-	long long	time_since_last;
 
 	table = (t_table *)arg;
-	while (!table->death_flag)
+	usleep(1000);
+	while (!check_death(table))
 	{
 		i = 0;
 		while (i < table->number_philos)
 		{
-			time_since_last = get_current_timestamp()
-				- table->philos[i].last_meal;
-			if (time_since_last > table->time->time_to_die)
-			{
-				pthread_mutex_lock(table->log_mutex);
-				printf("Philosopher %d died\n", table->philos[i].id);
-				pthread_mutex_unlock(table->log_mutex);
-				table->death_flag = 1;
+			if (check_philo_death(&table->philos[i], table))
 				return (NULL);
-			}
 			i++;
+		}
+		if (check_all_ate(table))
+		{
+			set_death(table);
+			return (NULL);
 		}
 		usleep(1000);
 	}

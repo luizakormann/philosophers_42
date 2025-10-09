@@ -6,7 +6,7 @@
 #    By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/23 22:15:37 by lukorman          #+#    #+#              #
-#    Updated: 2025/09/24 22:28:05 by lukorman         ###   ########.fr        #
+#    Updated: 2025/10/08 23:05:14 by lukorman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,23 +69,26 @@ $(NAME): $(OBJS)
 LEAKS	:=	valgrind --leak-check=full --show-leak-kinds=all \
 		--track-origins=yes --log-file=val-leaks.txt --track-fds=yes
 
-HELGRIND	:=	valgrind --tool=hellgrind \
-		--track-origins=yes --log-file=val-helgrind.txt --track-fds=yes
+HELGRIND	:=	valgrind --tool=helgrind \
+		 --log-file=val-helgrind.txt --track-fds=yes
 
 DRD	:=	valgrind --tool=drd \
-		--track-origins=yes --log-file=val-drd.txt --track-fds=yes
+		 --log-file=val-drd.txt --track-fds=yes
 
-val_leaks: all
-	@echo "running valgrind (leaks). after, find trace at ./val-leaks.txt"
-	@$(LEAKS) ./$(NAME)
+val_leaks: re
+	@echo "running valgrind (leaks). input used: './bin/philo 198 401 200 200 10'"
+	@echo "find trace at ./val-leaks.txt"
+	@$(LEAKS) ./$(NAME) 198 401 200 200 10 2>&1
 
-val_helg: all
-	@echo "running valgrind (helgrind). after, find trace at ./val-helgrind.txt"
-	@$(HELGRIND) ./$(NAME)
+val_helg: re
+	@echo "running valgrind (helgrind). input used: './bin/philo 198 401 200 200 10'"
+	@echo "find trace at ./val-helgring.txt"
+	@$(HELGRIND) ./$(NAME) 198 401 200 200 10 2>&1
 
-val_drd: all
-	@echo "running valgrind (drd). after, find trace at ./val-drd.txt"
-	@$(DRD) ./$(NAME)
+val_drd: re
+	@echo "running valgrind (drd). input used: './bin/philo 198 401 200 200 10'"
+	@echo "find trace at ./val-drd.txt"
+	@$(DRD) ./$(NAME) 198 401 200 200 10 2>&1
 
 val_all: val_leaks val_drd val_helg
 
@@ -100,4 +103,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re val_leaks val_helg val_drd val_all
+.PHONY: all clean fclean re val_leaks val_helg val_drd

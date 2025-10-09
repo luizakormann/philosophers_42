@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:22:20 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/07 19:11:18 by luiza            ###   ########.fr       */
+/*   Updated: 2025/10/08 21:49:16 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void *philo_routine(void *arg)
 
 void	philo_eat(t_philos *philo)
 {
-	log_action(philo, " is eating");
+	log_action(philo, "is eating");
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_current_timestamp();
 	philo->meal_count++;

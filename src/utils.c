@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:34:30 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/07 17:59:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/10/09 00:42:17 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,15 @@ void	ms_sleep(long long ms)
 		remaining = ms - elapsed;
 		if (remaining <= 0)
 			break ;
-		if (remaining > 1)
+		if (remaining > 10)
+			usleep(remaining * 900);
+		else if (remaining > 1)
 			usleep((remaining / 2) * 1000);
 		else
 			usleep(100);
 	}
 }
-/* PAREI AQUI */
+
 void	log_action(t_philos *philo, char *action)
 {
 	t_table		*table;
@@ -74,10 +76,8 @@ void	log_action(t_philos *philo, char *action)
 	pthread_mutex_lock(&table->death_mutex);
 	dead = table->death_flag;
 	pthread_mutex_unlock(&table->death_mutex);
-
 	if (dead)
-		return;
-
+		return ;
 	pthread_mutex_lock(&table->log_mutex);
 	timestamp = get_current_timestamp() - table->time->start_time;
 	printf("%lld %d %s\n", timestamp, philo->id, action);

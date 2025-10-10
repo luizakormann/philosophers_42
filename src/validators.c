@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   validators.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 00:24:54 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/07 15:36:40 by luiza            ###   ########.fr       */
+/*   Updated: 2025/10/09 21:18:18 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 int	validate_args(int argc, char **argv);
+int	validate_argc(int argc);
 int	check_philo_death(t_philos *philo, t_table *table);
 int	check_all_ate(t_table *table);
 
@@ -20,13 +21,7 @@ int	validate_args(int argc, char **argv)
 {
 	int	i;
 	int	j;
-	if (argc < 5 || argc > 6)
-	{
-		printf("Invalid input. Correct usage:\n");
-		printf("./bin/philo number_of_philos time_to_die time_to_eat ");
-		printf("time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
-		return (0);
-	}
+
 	i = 1;
 	while (i < argc)
 	{
@@ -50,16 +45,28 @@ int	validate_args(int argc, char **argv)
 	return (1);
 }
 
+int	validate_argc(int argc)
+{
+	if (argc < 5 || argc > 6)
+	{
+		printf("Invalid input. Correct usage:\n");
+		printf("./bin/philo number_of_philos time_to_die time_to_eat ");
+		printf("time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+		return (0);
+	}
+	else
+		return (1);
+}
+
 int	check_philo_death(t_philos *philo, t_table *table)
 {
 	long long	time_since_last;
 	long long	current_time;
 
-	current_time = get_current_timestamp();
 	pthread_mutex_lock(&philo->meal_mutex);
+	current_time = get_current_timestamp();
 	time_since_last = current_time - philo->last_meal;
 	pthread_mutex_unlock(&philo->meal_mutex);
-
 	if (time_since_last > table->time->time_to_die)
 	{
 		pthread_mutex_lock(&table->log_mutex);
@@ -79,7 +86,6 @@ int	check_all_ate(t_table *table)
 
 	if (table->must_eat == -1)
 		return (0);
-
 	all_satisfied = 1;
 	i = 0;
 	while (i < table->number_philos)

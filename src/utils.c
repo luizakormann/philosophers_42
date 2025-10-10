@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:34:30 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/09 00:42:17 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/09 21:15:22 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ms_sleep(long long ms);
 void	log_action(t_philos *philo, char *action);
 void	take_forks(t_philos *philo);
 void	drop_forks(t_philos *philo);
-
 
 int	ft_atoi(const char *nptr)
 {

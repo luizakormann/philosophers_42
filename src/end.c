@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:29:14 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/07 15:58:05 by luiza            ###   ########.fr       */
+/*   Updated: 2025/10/09 20:58:04 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	end_dinner(t_table *table)
 	}
 	pthread_mutex_destroy(&table->death_mutex);
 	pthread_mutex_destroy(&table->log_mutex);
-
 	free(table->forks);
 	free(table->philos);
 	free(table->time);

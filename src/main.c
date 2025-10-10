@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 22:22:26 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/07 15:48:18 by luiza            ###   ########.fr       */
+/*   Updated: 2025/10/09 21:19:09 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int argc, char **argv)
 	int		must_eat;
 
 	if (!validate_args(argc, argv))
+		return (1);
+	if (!validate_argc(argc))
 		return (1);
 	must_eat = -1;
 	if (argc == 6)

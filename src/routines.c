@@ -6,19 +6,19 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:22:20 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/08 21:49:16 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/09 21:14:34 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void 	*philo_routine(void *arg);
+void	*philo_routine(void *arg);
 void	philo_eat(t_philos *philo);
 void	philo_snooze(t_philos *philo);
 void	philo_think(t_philos *philo);
 void	*controller(void *arg);
 
-void *philo_routine(void *arg)
+void	*philo_routine(void *arg)
 {
 	t_philos	*philo;
 

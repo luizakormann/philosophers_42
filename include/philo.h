@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 22:36:18 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/07 17:49:33 by luiza            ###   ########.fr       */
+/*   Updated: 2025/10/09 21:18:40 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ long long	get_current_timestamp(void);
 
 //validate
 int			validate_args(int argc, char **argv);
+int			validate_argc(int argc);
 int			check_philo_death(t_philos *philo, t_table *table);
 int			check_all_ate(t_table *table);
 

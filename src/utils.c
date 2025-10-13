@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:34:30 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/09 21:15:22 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:06:47 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		ft_atoi(const char *nptr);
 void	ms_sleep(long long ms);
 void	log_action(t_philos *philo, char *action);
-void	take_forks(t_philos *philo);
+int		take_forks(t_philos *philo);
 void	drop_forks(t_philos *philo);
 
 int	ft_atoi(const char *nptr)
@@ -83,12 +83,17 @@ void	log_action(t_philos *philo, char *action)
 	pthread_mutex_unlock(&table->log_mutex);
 }
 
-void	take_forks(t_philos *philo)
+int	take_forks(t_philos *philo)
 {
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		log_action(philo, "has taken a fork");
+		if (check_death(philo->table))
+		{
+			pthread_mutex_unlock(philo->right_fork);
+			return (0);
+		}
 		pthread_mutex_lock(philo->left_fork);
 		log_action(philo, "has taken a fork");
 	}
@@ -96,9 +101,15 @@ void	take_forks(t_philos *philo)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		log_action(philo, "has taken a fork");
+		if (check_death(philo->table))
+		{
+			pthread_mutex_unlock(philo->right_fork);
+			return (0);
+		}
 		pthread_mutex_lock(philo->right_fork);
 		log_action(philo, "has taken a fork");
 	}
+	return (1);
 }
 
 void	drop_forks(t_philos *philo)

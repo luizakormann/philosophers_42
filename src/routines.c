@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:22:20 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/09 21:14:34 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:45:12 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,15 @@ void	*philo_routine(void *arg)
 		usleep((philo->table->time->time_to_eat * 1000) / 2);
 	while (!check_death(philo->table))
 	{
-		take_forks(philo);
+		if (!take_forks(philo))
+			break ;
 		philo_eat(philo);
 		drop_forks(philo);
+		if (check_death(philo->table))
+			break ;
 		philo_snooze(philo);
+		if (check_death(philo->table))
+			break ;
 		philo_think(philo);
 	}
 	return (NULL);
@@ -80,11 +85,12 @@ void	philo_think(t_philos *philo)
 
 void	*controller(void *arg)
 {
-	t_table	*table;
-	int		i;
+	t_table		*table;
+	int			i;
+	long long	check_interval;
 
 	table = (t_table *)arg;
-	usleep(1000);
+	check_interval = calc_check_interval(table);
 	while (!check_death(table))
 	{
 		i = 0;
@@ -99,7 +105,7 @@ void	*controller(void *arg)
 			set_death(table);
 			return (NULL);
 		}
-		usleep(1000);
+		usleep(check_interval);
 	}
 	return (NULL);
 }

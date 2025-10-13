@@ -6,16 +6,17 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 00:24:54 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/09 21:18:18 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:04:06 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	validate_args(int argc, char **argv);
-int	validate_argc(int argc);
-int	check_philo_death(t_philos *philo, t_table *table);
-int	check_all_ate(t_table *table);
+int			validate_args(int argc, char **argv);
+int			validate_argc(int argc);
+int			check_philo_death(t_philos *philo, t_table *table);
+int			check_all_ate(t_table *table);
+long long	calc_check_interval(t_table *table);
 
 int	validate_args(int argc, char **argv)
 {
@@ -97,4 +98,24 @@ int	check_all_ate(t_table *table)
 		i++;
 	}
 	return (all_satisfied);
+}
+
+long long	calc_check_interval(t_table *table)
+{
+	//long long	die_based;
+	long long	cycle_based;
+	//long long	interval;
+
+	//die_based = table->time->time_to_die / 10;
+	cycle_based = table->time->time_to_sleep
+		+ ((table->number_philos - 1) * table->time->time_to_eat);
+	/* if (die_based < cycle_based)
+		interval = die_based; */
+/* 	else
+		interval = cycle_based;
+	if (interval > 1000)
+		interval = 1000;
+	if (interval < 100)
+		interval = 100; */
+	return (cycle_based);
 }

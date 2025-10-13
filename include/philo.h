@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 22:36:18 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/13 15:32:25 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:50:00 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int			validate_args(int argc, char **argv);
 int			validate_argc(int argc);
 int			check_philo_death(t_philos *philo, t_table *table);
 int			check_all_ate(t_table *table);
+long long	calc_check_interval(t_table *table);
 
 //routines
 void		*philo_routine(void *arg);
@@ -88,7 +89,7 @@ void		set_death(t_table *table);
 int			ft_atoi(const char *nptr);
 void		ms_sleep(long long ms);
 void		log_action(t_philos *philo, char *action);
-void		take_forks(t_philos *philo);
+int			take_forks(t_philos *philo);
 void		drop_forks(t_philos *philo);
 
 #endif

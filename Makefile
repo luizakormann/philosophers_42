@@ -6,7 +6,7 @@
 #    By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/23 22:15:37 by lukorman          #+#    #+#              #
-#    Updated: 2025/10/13 15:33:21 by lukorman         ###   ########.fr        #
+#    Updated: 2025/10/13 15:37:28 by lukorman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,8 +89,6 @@ val_drd: re
 	@echo "running valgrind (drd). input used: './bin/philo 198 401 200 200 10'"
 	@echo "find trace at ./val-drd.txt"
 	@$(DRD) ./$(NAME) 198 401 200 200 10 2>&1
-
-val_all: val_leaks val_drd val_helg
 
 clean:
 	@echo "removing /obj && *.txt files if any"

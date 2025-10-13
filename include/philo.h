@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 22:36:18 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/09 21:18:40 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:32:25 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 typedef struct s_philos	t_philos;
 typedef struct s_table	t_table;
 typedef struct s_time	t_time;
-
 
 typedef struct s_philos
 {

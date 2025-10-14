@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 01:34:30 by lukorman          #+#    #+#             */
-/*   Updated: 2025/10/13 18:06:47 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/10/13 21:47:38 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	take_forks(t_philos *philo)
 		log_action(philo, "has taken a fork");
 		if (check_death(philo->table))
 		{
-			pthread_mutex_unlock(philo->right_fork);
+			pthread_mutex_unlock(philo->left_fork);
 			return (0);
 		}
 		pthread_mutex_lock(philo->right_fork);

@@ -6,7 +6,7 @@
 #    By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/23 22:15:37 by lukorman          #+#    #+#              #
-#    Updated: 2025/10/13 15:37:28 by lukorman         ###   ########.fr        #
+#    Updated: 2025/10/13 22:46:30 by lukorman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,14 +81,14 @@ val_leaks: re
 	@$(LEAKS) ./$(NAME) 198 401 200 200 10 2>&1
 
 val_helg: re
-	@echo "running valgrind (helgrind). input used: './bin/philo 198 401 200 200 10'"
+	@echo "running valgrind (helgrind). input used: './bin/philo 5 800 200 200 7'"
 	@echo "find trace at ./val-helgring.txt"
-	@$(HELGRIND) ./$(NAME) 198 401 200 200 10 2>&1
+	@$(HELGRIND) ./$(NAME) 5 800 200 200 7 2>&1
 
 val_drd: re
-	@echo "running valgrind (drd). input used: './bin/philo 198 401 200 200 10'"
+	@echo "running valgrind (drd). input used: './bin/philo 1 800 200 200'"
 	@echo "find trace at ./val-drd.txt"
-	@$(DRD) ./$(NAME) 198 401 200 200 10 2>&1
+	@$(DRD) ./$(NAME) 1 800 200 200  2>&1
 
 clean:
 	@echo "removing /obj && *.txt files if any"
